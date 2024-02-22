@@ -1,0 +1,7 @@
+C:\Users\NovaY\source\repos\ProjetoGrafos\obj\Debug\ProjetoGrafos.csproj.AssemblyReference.cache
+C:\Users\NovaY\source\repos\ProjetoGrafos\obj\Debug\ProjetoGrafos.csproj.CoreCompileInputs.cache
+C:\Users\NovaY\source\repos\ProjetoGrafos\bin\Debug\ProjetoGrafos.exe.config
+C:\Users\NovaY\source\repos\ProjetoGrafos\bin\Debug\ProjetoGrafos.exe
+C:\Users\NovaY\source\repos\ProjetoGrafos\bin\Debug\ProjetoGrafos.pdb
+C:\Users\NovaY\source\repos\ProjetoGrafos\obj\Debug\ProjetoGrafos.exe
+C:\Users\NovaY\source\repos\ProjetoGrafos\obj\Debug\ProjetoGrafos.pdb
