@@ -16,23 +16,37 @@ namespace ProjetoGrafos.Operacoes
             Console.Write("Digite o Nome e Tipo do grafo(ex:'Nome:DI/ND')\n" + "->");
             string[] retorno = Console.ReadLine().Split(':');
 
-            TipoGrafo tipoGrafo;
+            if (retorno != null && retorno.Length == 2) 
+            {
+                TipoGrafo tipoGrafo;
 
-            if (retorno[1] == "ND") 
-                tipoGrafo = TipoGrafo.ND;
-            else 
-                tipoGrafo = TipoGrafo.DI;
+                if (retorno[1] == "ND")
+                    tipoGrafo = TipoGrafo.ND;
+                else if(retorno[1] == "DI")
+                    tipoGrafo = TipoGrafo.DI;
+                else
+                {
+                    tipoGrafo = TipoGrafo.DI;
+                    Console.WriteLine("Nenhum tipo válido escolido, tipo definido como não direcionado");
+                }
 
-            Grafo grafo = new Grafo(retorno[0].Trim(), tipoGrafo);
-            Program._Grafos.Add(grafo);
+                Grafo grafo = new Grafo(retorno[0].Trim(), tipoGrafo);
+                Program._Grafos.Add(grafo);
 
-            int pos = Program._Grafos.IndexOf(grafo);
+                int pos = Program._Grafos.IndexOf(grafo);
 
-            Program._Grafos[pos].CriarVertices();
-            Program._Grafos[pos].CriarRelacoes();
+                Program._Grafos[pos].CriarVertices();
+                Program._Grafos[pos].CriarRelacoes();
 
-            Console.WriteLine("\nDetalhes do Grafo Criado:\n");
-            Program._Grafos[pos].ExibirGrafo();
+                Console.WriteLine("\nDetalhes do Grafo Criado:\n");
+                Program._Grafos[pos].ExibirGrafo();
+                Program._Grafos[pos].mostrarMatriz();
+            }
+            else
+            {
+                Console.WriteLine("Entrada inválida, criação cancelada");
+                return;
+            }
         }
 
         public static void VisualizarGrafo()
@@ -49,7 +63,11 @@ namespace ProjetoGrafos.Operacoes
                 int pos = Program._Grafos.IndexOf(grafo);
                 Program._Grafos[pos].ExibirGrafo();
             }
+        }
 
+        public static void DeletarGrafo()
+        {
+            Console.Clear();
         }
     }
 }

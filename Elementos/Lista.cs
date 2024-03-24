@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjetoGrafos.Lista
+namespace ProjetoGrafos.Elementos
 {
-    internal class CriaLista
+    internal class Lista
     {
+        private Vertice[] _vertice;
+
+        public Lista() { }
     }
 }

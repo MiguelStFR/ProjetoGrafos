@@ -37,10 +37,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="Elementos\Aresta.cs" />
+    <Compile Include="Elementos\Grafo.cs" />
+    <Compile Include="Elementos\Lista.cs" />
+    <Compile Include="Elementos\Matriz.cs" />
     <Compile Include="Elementos\Vertice.cs" />
-    <Compile Include="Lista\CriaLista.cs" />
-    <Compile Include="Matriz\CriarMatriz.cs" />
+    <Compile Include="Operacoes\CrudGrafo.cs" />
+    <Compile Include="Operacoes\Menu.cs" />
+    <Compile Include="Operacoes\Operacoes.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

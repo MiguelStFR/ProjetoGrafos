@@ -25,6 +25,14 @@ namespace ProjetoGrafos.Elementos
 
         private bool _isBipartido = false;
 
+        private Matriz[,] _matrizAdjacencia;
+
+        public Matriz[,] MatrizAdjacencia
+        {
+            get { return _matrizAdjacencia;}
+            set {  _matrizAdjacencia = value;}
+        }
+
         public string Nome
         {
             get {  return _nome; }
@@ -95,36 +103,24 @@ namespace ProjetoGrafos.Elementos
 
         private void RelacionarNaoDirecional(string vertice_pai, string vertice_filho)
         {
-            //int indexPai = VerticeList.IndexOf(VerticeList.Find(v => v.Tag == vertice_pai));
-            //int indexFilho = VerticeList.IndexOf(VerticeList.Find(v => v.Tag == vertice_filho));
-
             VerticeList[IndexVertice(vertice_pai)].AdicionarProxVertice(VerticeAux(vertice_filho));
             VerticeList[IndexVertice(vertice_filho)].AdicionarProxVertice(VerticeAux(vertice_pai));
         }
 
         private void RemoverRelacionarNaoDirecional(string vertice_pai, string vertice_filho)
         {
-            //int indexPai = VerticeList.IndexOf(VerticeList.Find(v => v.Tag == vertice_pai));
-            //int indexFilho = VerticeList.IndexOf(VerticeList.Find(v => v.Tag == vertice_filho));
-
             VerticeList[IndexVertice(vertice_pai)].RemoverProxVertice(VerticeAux(vertice_filho));
             VerticeList[IndexVertice(vertice_filho)].RemoverProxVertice(VerticeAux(vertice_pai));
         }
 
         private void RelacionarDirecional(string vertice_pai, string vertice_filho)
         {
-            //int indexPai = VerticeList.IndexOf(VerticeList.Find(v => v.Tag == vertice_pai));
-            //int indexFilho = VerticeList.IndexOf(VerticeList.Find(v => v.Tag == vertice_filho));
-
             VerticeList[IndexVertice(vertice_pai)].AdicionarProxVertice(VerticeAux(vertice_filho));
             VerticeList[IndexVertice(vertice_filho)].AdicionarAntVertice(VerticeAux(vertice_pai));
         }
 
         private void RemoverRelacionarDirecional(string vertice_pai, string vertice_filho)
         {
-            //int indexPai = VerticeList.IndexOf(VerticeList.Find(v => v.Tag == vertice_pai));
-            //int indexFilho = VerticeList.IndexOf(VerticeList.Find(v => v.Tag == vertice_filho));
-
             VerticeList[IndexVertice(vertice_pai)].RemoverProxVertice(VerticeAux(vertice_filho));
             VerticeList[IndexVertice(vertice_filho)].RemoverAntVertice(VerticeAux(vertice_pai));
         }
@@ -152,6 +148,8 @@ namespace ProjetoGrafos.Elementos
                 RelacionarNaoDirecional(aresta[0].Trim(), aresta[1].Trim());
             else
                 RelacionarDirecional(aresta[0].Trim(), aresta[1].Trim());
+
+            atualizarGrafo();
         }
 
         public void RemoverAresta()
@@ -177,6 +175,8 @@ namespace ProjetoGrafos.Elementos
                 RemoverRelacionarNaoDirecional(aresta[0].Trim(), aresta[1].Trim());
             else
                 RemoverRelacionarDirecional(aresta[0].Trim(), aresta[1].Trim());
+
+            atualizarGrafo();
         }
 
         public void CriarRelacoes()
@@ -200,26 +200,29 @@ namespace ProjetoGrafos.Elementos
                 else
                     RelacionarDirecional(vertice[0].Trim(), vertice[1].Trim());
             }
+            atualizarGrafo();
         }
 
         public void ExibirGrafo()
         {
 
             Console.WriteLine(
-                "\n\nGrafo: " + Nome +
-                "\nTipo:" + Tipo +
-                "\nÉ simples? " + IsSimples +
-                "\nÉ regular? " + IsRegular +
-                "\nÉ completo?" + IsCompleto +
-                "\nÉ Bipartido?" + IsBipartido +
-                "\nRelações:"
+                "\n\nGrafo:\t" + Nome +
+                "\nTipo:\t" + ((Tipo == TipoGrafo.DI)?"Direcionado":"Ñão Direcionado") +
+                "\nÉ simples?\t" + IsSimples +
+                "\nÉ regular?\t" + IsRegular +
+                "\nÉ completo?\t" + IsCompleto +
+                "\nÉ Bipartido?\t" + IsBipartido +
+                "\nRelações:\n"
                 );
             foreach(Vertice vertice in VerticeList) 
             { 
                 vertice.ExibirProxVertices();
             }
+            mostrarMatriz();
         }
 
+        //
         public bool BuscarVertice(string Tag)
         {
             if (VerticeList.Find(v => v.Tag == Tag) == null)
@@ -228,15 +231,18 @@ namespace ProjetoGrafos.Elementos
                 return true;
         }
 
+        //
         public int IndexVertice(string Tag)
         {
             return VerticeList.IndexOf(VerticeAux(Tag));
         }
 
+        //
         public Vertice VerticeAux(string Tag)
         {
             return VerticeList.Find(v => v.Tag == Tag);
         }
+
 
         public void Deletar()
         {
@@ -249,7 +255,7 @@ namespace ProjetoGrafos.Elementos
                 case "N":
                 case "n":
                 default:
-                    Console.WriteLine("\nDeleção cancelada\n");
+                    Console.WriteLine("\nDeleção cancelada.\n");
                     break;
                 case "S":
                 case "s":
@@ -257,5 +263,79 @@ namespace ProjetoGrafos.Elementos
                     break;
             }
         }
+    
+        public void atualizarMatriz()
+        {
+            _matrizAdjacencia = new Matriz[VerticeList.Count, VerticeList.Count];
+            _matrizAdjacencia = Matriz.CriarMatriz(VerticeList);
+        }
+
+        public void atualizarSimples()
+        {
+            for(int i = 0; i < VerticeList.Count; i++)
+            {
+                if (MatrizAdjacencia[i, i].numRelacoes > 0)
+                {
+                    IsSimples = false;
+                    return;
+                }
+
+                for(int j = 0; j < VerticeList.Count; j++)
+                {
+                    if (MatrizAdjacencia[i, j].numRelacoes > 1)
+                    {
+                        IsSimples = false;
+                        return;
+                    }
+                    j++;
+                }   
+            }
+            IsSimples = true;
+        }
+
+        public void atualizarRegular()
+        {
+            //Se existe algum vértice com um grau diferente do primeiro, então o grafo não é regular 
+            if (VerticeList.Find(v => v.Grau != VerticeList[0].Grau) != null) IsRegular = false;
+            else IsRegular = true;
+        }
+
+        public void atualizarBipartido()
+        {
+
+        }
+
+        public void atualizarCompleto()
+        {
+
+        }
+
+        public void atualizarGrauVertices()
+        {
+            for (int i = 0; i < VerticeList.Count; i++)
+                VerticeList[i].AtualizarGrau();
+        }
+
+        public void mostrarMatriz()
+        {
+            Matriz.mostrarMatriz(MatrizAdjacencia, VerticeList.Count);
+        }
+
+        //É chamado sempre que é inserido/removido uma nova aresta/vértice
+        public void atualizarGrafo()
+        {
+            atualizarMatriz();
+
+            atualizarBipartido();
+            
+            atualizarCompleto();
+            
+            atualizarRegular();
+            
+            atualizarSimples();
+
+            atualizarGrauVertices();
+        }
+
     }
 }

@@ -42,6 +42,16 @@ namespace ProjetoGrafos.Elementos
             Tag = tag;
         }
 
+        public List<Vertice> Prox_Vertices
+        {
+            get { return _prox_vertice;}
+        }
+
+        public List<Vertice> Ant_Vertie
+        {
+            get { return _ant_vertice;}
+        }
+
         //Adiciona um novo vértice-filho 
         public void AdicionarProxVertice(Vertice vertice)
         {
@@ -72,7 +82,7 @@ namespace ProjetoGrafos.Elementos
 
         public void ExibirProxVertices()
         {
-            string mesclarVertices = String.Concat("\t" + Tag, " : { ");
+            string mesclarVertices = String.Concat(Tag, " : { ");
 
             foreach (Vertice vertice in _prox_vertice)
             {
@@ -87,7 +97,7 @@ namespace ProjetoGrafos.Elementos
 
         public void ExibirAntVertices()
         {
-            string mesclarVertices = String.Concat("\t" + Tag, " : { ");
+            string mesclarVertices = String.Concat(Tag, " : { ");
 
             foreach (Vertice vertice in _ant_vertice)
             {
@@ -126,9 +136,14 @@ namespace ProjetoGrafos.Elementos
 
         }
 
-        public void ExibirTOdosSucessores()
+        public void ExibirTodosSucessores()
         {
 
+        }
+
+        public void AtualizarGrau()
+        {
+            Grau = _prox_vertice.Count + _ant_vertice.Count;
         }
     }
 }

@@ -23,12 +23,11 @@ namespace ProjetoGrafos.Operacoes
     {
         public static void ExbirMenu() 
         {
+            Console.Clear();
             string escolha;
 
             do
             {
-                Console.Clear();
-
                 Console.Write(
                 "Digite o que deseja realizar:\n" +
                 "1 - Criar Grafo.\n" +
@@ -70,13 +69,11 @@ namespace ProjetoGrafos.Operacoes
         public static void GrafoMenu(int pos) 
         {
             string escolha;
-
+            Console.Clear();
             do
             {
-                Console.Clear();
-
                 Console.Write(
-                "Digite o que deseja realizar:\n" +
+                "\nDigite o que deseja realizar:\n" +
                 "1 - Identificar a vizinhança de um vértice.\n" +
                 "2 - Identificar sucessores e predecessores de um vértice.\n" +
                 "3 - Identificar do grau de um vértice.\n" +
@@ -86,9 +83,10 @@ namespace ProjetoGrafos.Operacoes
                 "7 - Testar se o grafo é bipartido.\n" +
                 "8 - Criar arestas\n" +
                 "9 - Remover arestas\n" +
-                "10 - Deletar o Grafo\n" +
-                "11 - Voltar.\n" +
-                "12 - Sair.\n"+
+                "10 - Detalhes do Grafo\n" +
+                "11 - Deletar o Grafo\n" +
+                "12 - Voltar.\n" +
+                "13 - Sair.\n"+
                 "-> ");
 
                 escolha = Console.ReadLine();
@@ -99,7 +97,7 @@ namespace ProjetoGrafos.Operacoes
                         Operacoes.IdentificarVizinhancaVertice(pos);
                         continue;
                     case "2":
-                        Console.WriteLine("\nIdentificar sucessores e predecessores de um vértice..\n");
+                        Operacoes.IdentificarSucessoresPredecessores(pos);
                         continue;
                     case "3":
                         Operacoes.IdentificarGrauVertice(pos);
@@ -123,12 +121,16 @@ namespace ProjetoGrafos.Operacoes
                         Program._Grafos[pos].RemoverAresta();
                         continue;
                     case "10":
-                        Program._Grafos[pos].Deletar();
+                        Console.Clear();
+                        Program._Grafos[pos].ExibirGrafo();
                         continue;
                     case "11":
-                        Console.WriteLine("\nVoltar.\n");
+                        Program._Grafos[pos].Deletar();                   
                         return;
                     case "12":
+                        Console.WriteLine("\nVoltar.\n");
+                        return;
+                    case "13":
                         Console.WriteLine("\nSaindo.\n");
                         Environment.Exit(0);
                         break;
@@ -136,7 +138,6 @@ namespace ProjetoGrafos.Operacoes
                         Console.WriteLine("Nenhuma opção válida escolhida");
                         continue;
                 }
-                Console.Clear();
             } while (true);
         }
     }

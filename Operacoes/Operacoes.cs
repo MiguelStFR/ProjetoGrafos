@@ -14,8 +14,16 @@ namespace ProjetoGrafos.Operacoes
         {
             Console.Clear();
 
+            if(Program._Grafos.Count == 0 ) 
+            {
+                Console.WriteLine("Nenhum grafo foi criado.\n");
+                return;
+            }
+
             foreach (Grafo g in Program._Grafos)
+            {
                 g.ExibirGrafo();
+            }
 
             Console.Write("\nEscolha um dos grafos acima:\n-> ");
             String escolha = Console.ReadLine();
@@ -79,7 +87,7 @@ namespace ProjetoGrafos.Operacoes
                 Console.WriteLine("Nenhum vértice com esse nome foi localizado no grafo em questão.\n");
             else
             {
-                Console.WriteLine("Grau do vértice " + tag_vertice + ": " + Program._Grafos[pos].VerticeAux(tag_vertice).Grau); 
+                Console.WriteLine("Grau do vértice " + tag_vertice + ": " + Program._Grafos[pos].VerticeAux(tag_vertice).Grau + "\n"); 
             }
         }
 
@@ -101,7 +109,21 @@ namespace ProjetoGrafos.Operacoes
 
         public static void IdentificarSucessoresPredecessores(int pos)
         {
+            Console.Clear();
+            Console.Write("Digite o vértice de interesse(ex: 'V1')\n->");
+            string tag_vertice = Console.ReadLine().Trim();
 
+            if (!Program._Grafos[pos].BuscarVertice(tag_vertice))
+                Console.WriteLine("Nenhum vértice com esse nome foi localizado no grafo em questão.\n");
+            else
+            {
+                Console.Write("Sucessores ");
+                Program._Grafos[pos].VerticeAux(tag_vertice).ExibirProxVertices();
+
+                Console.Write("Antecessores ");
+                Program._Grafos[pos].VerticeAux(tag_vertice).ExibirAntVertices();
+                Console.Write("\n");
+            }
         }
     }
 }
