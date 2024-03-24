@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ProjetoGrafos.Elementos;
+using ProjetoGrafos.Operacoes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +10,11 @@ namespace ProjetoGrafos
 {
     internal class Program
     {
+        public static List<Grafo> _Grafos = new List<Grafo>();
         public static void Main(string[] args)
         {
-
-            Console.WriteLine("Pai tá on, pivetadaaaaaaaa!!!!");
-            Console.ReadKey();
+            Console.Title = "TRABALHO 01 - GRAFOS";
+            Menu.ExbirMenu();
         }
     }
 }
