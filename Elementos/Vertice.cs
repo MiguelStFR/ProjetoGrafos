@@ -9,16 +9,27 @@ namespace ProjetoGrafos.Elementos
 {
     internal class Vertice
     {
+        private List<Vertice> _verticesVizinhos = new List<Vertice>();
 
-        private List<Vertice> _prox_vertice = new List<Vertice>();
+        private List<Vertice> _verticesPai = new List<Vertice>();
 
-        private List<Vertice> _ant_vertice = new List<Vertice>();
-        
+        private List<Vertice> _verticesFilho = new List<Vertice>();
+
         private string _tag = string.Empty;
 
         private int _valor;
 
+        private bool _temLaco = false;
+
         private int _grau = 0;
+
+        private int _grupo;
+
+        public int Grupo
+        {
+            get { return _grupo; }
+            set { _grupo = value; }
+        }
 
         public string Tag
         {
@@ -31,119 +42,136 @@ namespace ProjetoGrafos.Elementos
             get { return _valor; }
             set { _valor = value; }
         }
-    
-        public int Grau
-        {
-            get { return _grau; }
-            set { _grau = value; }
-        }
 
         public Vertice(string tag) {
             Tag = tag;
+            Grupo = -1;
         }
 
-        public List<Vertice> Prox_Vertices
+        public int Grau
         {
-            get { return _prox_vertice;}
+            get { return _grau; }
         }
 
-        public List<Vertice> Ant_Vertie
+        public bool TemLaco
         {
-            get { return _ant_vertice;}
+            get { return _temLaco; }
+            set { _temLaco = value; }
         }
 
-        //Adiciona um novo vértice-filho 
-        public void AdicionarProxVertice(Vertice vertice)
+        public List<Vertice> VerticesVizinhos
         {
-            if (vertice != null)
-                _prox_vertice.Add(vertice);
+            get { return _verticesVizinhos; }
         }
 
-        //Adiciona um novo vértice-pai
-        public void AdicionarAntVertice(Vertice vertice)
+        public List<Vertice> VerticesPai
         {
-            if (vertice != null)
-                _ant_vertice.Add(vertice);
+            get { return _verticesPai; }
         }
 
-        //Remove um vértice-filho
-        public void RemoverProxVertice(Vertice vertice)
+        public List<Vertice> VerticesFilho
         {
-            if (vertice != null)
-                _prox_vertice.Remove(vertice);
+            get { return _verticesFilho; }
         }
 
-        //Remove um vértice-pai
-        public void RemoverAntVertice(Vertice vertice)
+        public void AdicionarVerticePai(Vertice vertice)
         {
             if (vertice != null)
-                _ant_vertice.Remove(vertice);
-        }
-
-        public void ExibirProxVertices()
-        {
-            string mesclarVertices = String.Concat(Tag, " : { ");
-
-            foreach (Vertice vertice in _prox_vertice)
             {
-                mesclarVertices += String.Concat(vertice.Tag, ";");
+                _verticesPai.Add(vertice);
+                _verticesVizinhos.Add(vertice);
+
+                _grau++;
+
+                if(vertice.Tag ==  Tag)
+                    TemLaco = true;
             }
-
-            mesclarVertices.Remove(mesclarVertices.Length - 1);
-            mesclarVertices += " }";
-
-            Console.WriteLine(mesclarVertices);
         }
 
-        public void ExibirAntVertices()
+        public void AdicionarVerticeFilho(Vertice vertice)
         {
-            string mesclarVertices = String.Concat(Tag, " : { ");
-
-            foreach (Vertice vertice in _ant_vertice)
+            if (vertice != null)
             {
-                mesclarVertices += String.Concat(vertice.Tag, ";");
+                _verticesFilho.Add(vertice);
+                _verticesVizinhos.Add(vertice);
+
+                _grau--;
+
+                if (vertice.Tag == Tag)
+                    TemLaco = true;
             }
-
-            mesclarVertices.Remove(mesclarVertices.Length - 1);
-            mesclarVertices += " }";
-
-            Console.WriteLine(mesclarVertices);
         }
 
-        public void ExibirVizinhanca()
+        public void RemoverVerticePai(Vertice vertice)
         {
-            string mesclarVertices = String.Concat("\t" + Tag, " : { ");
-
-            foreach (Vertice vertice in _prox_vertice)
+            if (vertice != null)
             {
-                mesclarVertices += String.Concat(vertice.Tag, ";");
-            }
+                _verticesPai.Remove(vertice);
+                _verticesVizinhos.Remove(vertice);
 
-            foreach (Vertice vertice in _ant_vertice)
+                if (VerticesPai.Find(v => v.Tag == Tag) == null)
+                    TemLaco = false;
+            }
+        }
+
+        public void RemoverVerticeFilho(Vertice vertice)
+        {
+            if (vertice != null)
             {
-                mesclarVertices += String.Concat(vertice.Tag, ";");
+                _verticesFilho.Remove(vertice);
+                _verticesVizinhos.Remove(vertice);
 
+                if (VerticesFilho.Find(v => v.Tag == Tag) == null)
+                    TemLaco = false;
             }
-
-            mesclarVertices.Remove(mesclarVertices.Length - 1);
-            mesclarVertices += " }";
-
-            Console.WriteLine(mesclarVertices);
         }
 
-        public void ExibirTodosAntecessores()
+        public string MostrarPais()
         {
+            string mescla = "{ ";
 
+            foreach (Vertice vertice in _verticesPai)
+                mescla += vertice.Tag + "; ";
+
+            mescla.Remove(mescla.Length - 1);
+            mescla += " }";
+
+            return mescla;
         }
 
-        public void ExibirTodosSucessores()
+        public string MostrarFilhos()
         {
+            string mescla = "{ ";
 
+            foreach (Vertice vertice in _verticesFilho)
+                mescla += vertice.Tag + "; ";
+
+            mescla.Remove(mescla.Length - 1);
+            mescla += " }";
+
+            return mescla;
         }
 
-        public void AtualizarGrau()
+        public string MostrarVizinhos()
         {
-            Grau = _prox_vertice.Count + _ant_vertice.Count;
+            string mescla = "{ ";
+
+            foreach (Vertice vertice in _verticesVizinhos)
+                mescla += vertice.Tag + "; ";
+
+            mescla.Remove(mescla.Length - 1);
+            mescla += " }";
+
+            return mescla;
+        }
+
+        public void AtualizarGrau(List<Aresta> arestas, TipoGrafo tipo)
+        {
+
+            if (tipo == TipoGrafo.ND)
+                _grau = (arestas.Count)/2;
+            else
+                _grau = arestas.Count;
         }
     }
 }

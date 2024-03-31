@@ -32,7 +32,8 @@ namespace ProjetoGrafos.Operacoes
                 "Digite o que deseja realizar:\n" +
                 "1 - Criar Grafo.\n" +
                 "2 - Acessar Grafo.\n" +
-                "3 - Sair.\n" +
+                "3 - Informações.\n" +
+                "4 - Sair.\n" +
                 "-> ");
 
                 escolha = Console.ReadLine();
@@ -48,15 +49,38 @@ namespace ProjetoGrafos.Operacoes
                         Operacoes.AcessarGrafo();
                         continue;
                     case "3":
+                        exibirInformacoes();
+                        Console.Clear();
+                        continue;
+                    case "4":
                         Console.WriteLine("\nSaindo.\n");
                         break;
                     default:
                         Console.WriteLine("Nenhuma opção válida escolhida");
                         continue;
                 }
-            } while (escolha != "3");
+            } while (escolha != "4");
         }
 
+        public static void exibirInformacoes()
+        {
+            Console.Clear();
+            Console.WriteLine(
+                "\n\t\t**PUC MINAS - CORAÇÃO EUCARÍSTICO - 2024**\n" +
+                "\t\t      *TRABALHO AVALIATIVO - PARTE 1*\n" +
+                "\t\t          *ALGORITIMOS EM GRAFOS*\n" +
+                "\n\n\n" +
+                "\t\t               *PROFESSOR* \n" +
+                "\t\t     WALISSON FERREIRA DE CARVALHO" +
+                "\n\n" +
+                "\t\t              *INTEGRANTES*\n" +
+                "\t\t         JEAN PEDRO SANTOS LIMA\n" +
+                "\t\t  MIGUEL DOS SANTOS FERREIRA RODRIGUES\n" +
+                "\t\t=========================================" +
+                "\n\n" +
+                "Digite qualquer tecla para voltar");
+            Console.ReadKey();
+        }
 
         //3) Criação e remoção de arestas,
         //4) Identificação da vizinhança de um vértice(grafo não direcionado),
@@ -121,14 +145,15 @@ namespace ProjetoGrafos.Operacoes
                         Program._Grafos[pos].RemoverAresta();
                         continue;
                     case "10":
-                        Console.Clear();
                         Program._Grafos[pos].ExibirGrafo();
+                        Console.Clear();
                         continue;
                     case "11":
                         Program._Grafos[pos].Deletar();                   
                         return;
                     case "12":
                         Console.WriteLine("\nVoltar.\n");
+                        Console.Clear();
                         return;
                     case "13":
                         Console.WriteLine("\nSaindo.\n");

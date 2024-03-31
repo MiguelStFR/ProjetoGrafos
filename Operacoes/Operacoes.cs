@@ -20,9 +20,10 @@ namespace ProjetoGrafos.Operacoes
                 return;
             }
 
+            Console.WriteLine("Grafos criados:\n");
             foreach (Grafo g in Program._Grafos)
             {
-                g.ExibirGrafo();
+                Console.WriteLine("Grafo: " +  g.Nome);
             }
 
             Console.Write("\nEscolha um dos grafos acima:\n-> ");
@@ -36,11 +37,15 @@ namespace ProjetoGrafos.Operacoes
                 Menu.GrafoMenu(pos);
             }
             else
-                Console.WriteLine("Nenhum Grafo válido selecionado");
+            {
+                Console.Clear();
+                Console.WriteLine("Nenhum Grafo válido selecionado.\n");
+            }
         }
 
         public static void TestarGrafoCompleto(int pos)
         {
+            Console.Clear();
             Console.Write("\nTestar se o grafo é completo: ");
             if (Program._Grafos[pos].IsCompleto)
                 Console.WriteLine("O Grafo é completo\n");
@@ -50,6 +55,7 @@ namespace ProjetoGrafos.Operacoes
 
         public static void TestarGrafoSimples(int pos)
         {
+            Console.Clear();
             Console.Write("\nTestar se o grafo é simples: ");
 
             if (Program._Grafos[pos].IsSimples)
@@ -60,6 +66,7 @@ namespace ProjetoGrafos.Operacoes
 
         public static void TestarGrafoBipartido(int pos)
         {
+            Console.Clear();
             Console.Write("\nTestar se o grafo é completo: ");
             if (Program._Grafos[pos].IsBipartido)
                 Console.WriteLine("O Grafo é bipartido.\n");
@@ -69,6 +76,7 @@ namespace ProjetoGrafos.Operacoes
 
         public static void TestarGrafoRegular(int pos)
         {
+            Console.Clear();
             Console.Write("\nTestar se o grafo é simples: ");
 
             if (Program._Grafos[pos].IsRegular)
@@ -102,7 +110,7 @@ namespace ProjetoGrafos.Operacoes
             else
             {
                 Console.Write("Vizinhança do vértice ");
-                Program._Grafos[pos].VerticeAux(tag_vertice).ExibirVizinhanca();
+                Program._Grafos[pos].ExibirVizinhanca(Program._Grafos[pos].VerticeAux(tag_vertice));
                 Console.Write("\n");
             }
         }
@@ -118,10 +126,10 @@ namespace ProjetoGrafos.Operacoes
             else
             {
                 Console.Write("Sucessores ");
-                Program._Grafos[pos].VerticeAux(tag_vertice).ExibirProxVertices();
+                Program._Grafos[pos].ExibirFilhosVertice(Program._Grafos[pos].VerticeAux(tag_vertice));
 
                 Console.Write("Antecessores ");
-                Program._Grafos[pos].VerticeAux(tag_vertice).ExibirAntVertices();
+                Program._Grafos[pos].ExibirPaisVertice(Program._Grafos[pos].VerticeAux(tag_vertice));
                 Console.Write("\n");
             }
         }

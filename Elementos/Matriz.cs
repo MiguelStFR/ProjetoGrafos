@@ -22,48 +22,45 @@ namespace ProjetoGrafos.Elementos
             _numRelacoes += numRelacoes;
         }
 
-        public static Matriz[,] CriarMatriz(List<Vertice> verticeList)
+        public static Matriz[,] CriarMatriz(List<Aresta> arestaList, List<Vertice> verticeList)
         {
-            int i = 0, j = 0;
-
             Matriz[,] matriz = new Matriz[verticeList.Count, verticeList.Count];
 
-            foreach (Vertice vLin in verticeList)
+            foreach (Vertice vertice in verticeList)
             {
-                foreach (Vertice vCol in verticeList)
+                int indexLin = verticeList.IndexOf(vertice);
+
+                List<Aresta> arestasVertice = arestaList.FindAll(a => a.VerticePai.Equals(vertice));
+
+                foreach(Vertice verticeAux in verticeList)
                 {
-                    matriz[i, j] = new Matriz(vLin.Tag + ":" + vCol.Tag, existeAdjacencia(vLin, vCol));
-                    j++;
+                    int indexCol = verticeList.IndexOf(verticeAux);
+
+                    int num_relacoes = arestasVertice.FindAll(a => a.VerticeFilho.Equals(verticeAux)).Count;
+                    matriz[indexCol, indexLin] = new Matriz(vertice.Tag + ":" + verticeAux.Tag, num_relacoes);
                 }
-                i++;
-                j = 0;
             }
             return matriz;
-        }
-    
-        private static int existeAdjacencia(Vertice vLin, Vertice vCol)
-        {
-            return (vLin.Prox_Vertices.Contains(vCol))? 1 : 0;
         }
 
         public static void mostrarMatriz(Matriz [,]matriz, int tam)
         {
-            Console.WriteLine("\nMATRIZ:");
+            Console.WriteLine("\nMATRIZ:\n");
             for(int i = 0; i < tam; i++)
             {
-                string[] vertice = matriz[i, 0].Combinacao.Split(':');
+                string[] vertice = matriz[0, i].Combinacao.Split(':');
                 Console.Write("\t" + vertice[0].Trim());
             }
             Console.Write("\n");
                 
             for (int i = 0; i < tam; i++)
             {
-                string[] vertice = matriz[0, i].Combinacao.Split(':');
+                string[] vertice = matriz[i, 0].Combinacao.Split(':');
                 Console.Write(vertice[1].Trim() + "\t");
 
                 for (int j = 0; j < tam; j++)
                 {
-                    Console.Write(matriz[i, j].numRelacoes + "\t");
+                    Console.Write(matriz[j, i].numRelacoes + "\t");
                 }
                 Console.Write("\n");
             }
