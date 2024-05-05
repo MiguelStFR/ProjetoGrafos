@@ -73,7 +73,7 @@ namespace ProjetoGrafos.Operacoes
             }
         }
 
-        public static void IniciarBuscaEmProfundidade(List<Vertice> verticeList)
+        public static void IniciarBuscaEmProfundidade(List<Vertice> verticeList, TipoGrafo tipoGrafo)
         {
             Console.WriteLine("INICIANDO BUSCA EM PROFUNDIDADE");
             tempo = 0;
@@ -92,26 +92,57 @@ namespace ProjetoGrafos.Operacoes
                 Vertice vertice = VerticeList.Find(v => v.TempoDescoberta == 0);
                 if (vertice != null)
                 {
-                    BuscarEmProfundidade(VerticeList.IndexOf(vertice));
+                    if(tipoGrafo == TipoGrafo.ND)
+                        BuscarEmProfundidadeND(VerticeList.IndexOf(vertice));
+                    else
+                        BuscarEmProfundidadeDI(VerticeList.IndexOf(vertice));
                 }
             }
         }
 
-        private static void BuscarEmProfundidade(int pos)
+        private static void BuscarEmProfundidadeND(int pos)
         {
             tempo++;
             VerticeList[pos].TempoDescoberta = tempo;
 
             foreach(Vertice vizinho in VerticeList[pos].VerticesVizinhos)
             {
-                if(vizinho.TempoDescoberta == 0)
+                if (vizinho.TempoDescoberta == 0)
                 {
                     Console.WriteLine("Aresta de Arvore {0}:{1}", vizinho.Tag, VerticeList[pos].Tag);
-                    BuscarEmProfundidade(VerticeList.IndexOf(vizinho));
+                    VerticeList[VerticeList.IndexOf(vizinho)].PredecessorBusca = VerticeList[pos];
+                    BuscarEmProfundidadeND(VerticeList.IndexOf(vizinho));
                 }
                 else if(vizinho.TempoTermino == 0 && vizinho != VerticeList[pos])
                 {
                     Console.WriteLine("Aresta de Retorno {0}:{1}", vizinho.Tag, VerticeList[pos].Tag);
+                }
+            }
+            tempo++;
+            VerticeList[pos].TempoTermino = tempo;
+        }
+
+        private static void BuscarEmProfundidadeDI(int pos)
+        {
+            tempo++;
+            VerticeList[pos].TempoDescoberta = tempo;
+
+            foreach (Vertice vizinho in VerticeList[pos].VerticesFilho)
+            {
+                if (vizinho.TempoDescoberta == 0)
+                {
+                    Console.WriteLine("Aresta de Arvore {0}:{1}", vizinho.Tag, VerticeList[pos].Tag);
+                    VerticeList[VerticeList.IndexOf(vizinho)].PredecessorBusca = VerticeList[pos];
+                    BuscarEmProfundidadeND(VerticeList.IndexOf(vizinho));
+                }
+                else
+                {
+                    if (vizinho.TempoTermino == 0)
+                        Console.WriteLine("Aresta de Retorno {0}:{1}", vizinho.Tag, VerticeList[pos].Tag);
+                    else if(VerticeList[pos].TempoDescoberta < vizinho.TempoDescoberta)
+                        Console.WriteLine("Aresta de Avanço {0}:{1}", vizinho.Tag, VerticeList[pos].Tag);
+                    else
+                        Console.WriteLine("Aresta de Cruzamento {0}:{1}", vizinho.Tag, VerticeList[pos].Tag);
                 }
             }
             tempo++;
