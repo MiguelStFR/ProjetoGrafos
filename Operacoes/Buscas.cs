@@ -10,12 +10,13 @@ namespace ProjetoGrafos.Operacoes
     internal class Buscas
     {
         private static int tempo = 0;
-        private static List<Vertice> Fila;
+        private static Queue<Vertice> Fila;
+        private static List<Vertice> VerticeList;
 
         public static void IniciarBuscaEmLarguraLista(List<Vertice> verticeList)
         {
             tempo = 0;
-            Fila = new List<Vertice>();
+            Fila = new Queue<Vertice>();
 
             Console.WriteLine("INICIANDO BUSCA EM LARGURA:\n");
             for (int i = 0; i < verticeList.Count; i++)
@@ -30,16 +31,16 @@ namespace ProjetoGrafos.Operacoes
                 Vertice vertice = verticeList.Find(v => v.IndiceBusca == 0);
                 tempo++;
                 vertice.NivelBusca = tempo;
-                Fila.Add(vertice);
+                Fila.Enqueue(vertice);
                 BuscarEmLarguraLista(Fila);
             }
         }
 
-        private static void BuscarEmLarguraLista(List<Vertice> Fila)
+        private static void BuscarEmLarguraLista(Queue<Vertice> Fila)
         {
             while(Fila.Count > 0)
             {
-                Vertice vertice = Fila.First();
+                Vertice vertice = Fila.Dequeue();
                 if (vertice != null)
                 {
                     foreach(Vertice vizinho in vertice.VerticesVizinhos)
@@ -52,7 +53,7 @@ namespace ProjetoGrafos.Operacoes
                             vizinho.NivelBusca = vertice.NivelBusca ++;
                             tempo++;
                             vizinho.IndiceBusca = tempo;
-                            Fila.Add(vizinho);
+                            Fila.Enqueue(vizinho);
                         }
                         //visita aresta tio
                         else if(vizinho.NivelBusca == vertice.NivelBusca + 1)
@@ -76,31 +77,45 @@ namespace ProjetoGrafos.Operacoes
         {
             Console.WriteLine("INICIANDO BUSCA EM PROFUNDIDADE");
             tempo = 0;
-            Fila.Clear();
+            VerticeList.Clear();
 
             for (int i = 0; i < verticeList.Count; i++)
             {
                 verticeList[i].TempoDescoberta = 0;
                 verticeList[i].TempoTermino = 0;
                 verticeList[i].PredecessorBusca = null;
-                Fila.Add(verticeList[i]);
+                VerticeList.Add(verticeList[i]);
             }
 
-            while (Fila.Find(v => v.TempoDescoberta == 0) != null)
+            while (VerticeList.Find(v => v.TempoDescoberta == 0) != null)
             {
-                Vertice vertice = Fila.Find(v => v.TempoDescoberta == 0);
+                Vertice vertice = VerticeList.Find(v => v.TempoDescoberta == 0);
                 if (vertice != null)
                 {
-                    int pos = Fila.IndexOf(vertice);
-                    BuscarEmProfundidade(pos);
+                    BuscarEmProfundidade(VerticeList.IndexOf(vertice));
                 }
             }
         }
 
-        public static void BuscarEmProfundidade(int pos)
+        private static void BuscarEmProfundidade(int pos)
         {
             tempo++;
-            
+            VerticeList[pos].TempoDescoberta = tempo;
+
+            foreach(Vertice vizinho in VerticeList[pos].VerticesVizinhos)
+            {
+                if(vizinho.TempoDescoberta == 0)
+                {
+                    Console.WriteLine("Aresta de Arvore {0}:{1}", vizinho.Tag, VerticeList[pos].Tag);
+                    BuscarEmProfundidade(VerticeList.IndexOf(vizinho));
+                }
+                else if(vizinho.TempoTermino == 0 && vizinho != VerticeList[pos])
+                {
+                    Console.WriteLine("Aresta de Retorno {0}:{1}", vizinho.Tag, VerticeList[pos].Tag);
+                }
+            }
+            tempo++;
+            VerticeList[pos].TempoTermino = tempo;
         }
     }
 }
