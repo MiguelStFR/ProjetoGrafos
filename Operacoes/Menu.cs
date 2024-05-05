@@ -163,7 +163,7 @@ namespace ProjetoGrafos.Operacoes
                         Console.Clear();
                         continue;
                     case "13":
-                        Buscas.IniciarBuscaEmProfundidade(Program._Grafos[pos].VerticeList);
+                        Buscas.IniciarBuscaEmProfundidade(Program._Grafos[pos].VerticeList, Program._Grafos[pos].Tipo);
                         Console.Clear();
                         continue;
                     case "14":
