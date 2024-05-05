@@ -98,19 +98,26 @@ namespace ProjetoGrafos.Operacoes
             {
                 Console.Write(
                 "\nDigite o que deseja realizar:\n" +
-                "1 - Identificar a vizinhança de um vértice.\n" +
-                "2 - Identificar sucessores e predecessores de um vértice.\n" +
-                "3 - Identificar do grau de um vértice.\n" +
-                "4 - Testar se o grafo é simples.\n" +
-                "5 - Testar se o grafo é regular.\n" +
-                "6 - Testar se o grafo é completo.\n" +
-                "7 - Testar se o grafo é bipartido.\n" +
-                "8 - Criar arestas\n" +
-                "9 - Remover arestas\n" +
+                " 0 - Voltar.\n" +
+                "00 - Sair.\n" +
+                " 1 - Identificar a vizinhança de um vértice.\n" +
+                " 2 - Identificar sucessores e predecessores de um vértice.\n" +
+                " 3 - Identificar do grau de um vértice.\n" +
+                " 4 - Testar se o grafo é simples.\n" +
+                " 5 - Testar se o grafo é regular.\n" +
+                " 6 - Testar se o grafo é completo.\n" +
+                " 7 - Testar se o grafo é bipartido.\n" +
+                " 8 - Criar arestas\n" +
+                " 9 - Remover arestas\n" +
                 "10 - Detalhes do Grafo\n" +
                 "11 - Deletar o Grafo\n" +
-                "12 - Voltar.\n" +
-                "13 - Sair.\n"+
+                "12 - Busca em largura\n" +
+                "13 - Busca em Profundidade\n" +
+                "14 - Ordenação Topológica\n" +
+                "15 - AGM Prim\n" +
+                "16 - AGM Kruskal\n" +
+                "17 - Testar se é Conexo\n" +
+                "18 - Encontrar caminho Mínimo\n" +
                 "-> ");
 
                 escolha = Console.ReadLine();
@@ -152,10 +159,38 @@ namespace ProjetoGrafos.Operacoes
                         Program._Grafos[pos].Deletar();                   
                         return;
                     case "12":
+                        Buscas.IniciarBuscaEmLarguraLista(Program._Grafos[pos].VerticeList);
+                        Console.Clear();
+                        continue;
+                    case "13":
+                        //Busca em profundidade
+                        Console.Clear();
+                        continue;
+                    case "14":
+                        //ordenação topológica
+                        Console.Clear();
+                        continue;
+                    case "15":
+                        //Prim
+                        Console.Clear();
+                        continue;
+                    case "16":
+                        //Kruskal
+                        Console.Clear();
+                        continue;
+                    case "17":
+                        //Testar se é conexo
+                        Console.Clear();
+                        continue;
+                    case "18":
+                        //Encontrar caminho mínimo
+                        Console.Clear();
+                        continue;
+                    case "0":
                         Console.WriteLine("\nVoltar.\n");
                         Console.Clear();
                         return;
-                    case "13":
+                    case "00":
                         Console.WriteLine("\nSaindo.\n");
                         Environment.Exit(0);
                         break;

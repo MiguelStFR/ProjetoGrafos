@@ -21,9 +21,51 @@ namespace ProjetoGrafos.Elementos
 
         private bool _temLaco = false;
 
-        private int _grau = 0;
+        private int _grauEntrada = 0;
+
+        private int _grauSaida = 0;
 
         private int _grupo;
+
+        private int _indiceBusca;
+
+        private int _nivelBusca;
+
+        private int _tempoDescoberta;
+
+        private int _tempoTermino;
+
+        private Vertice _predecessorBusca;
+
+        public int IndiceBusca
+        {
+            get { return _indiceBusca; }
+            set { _indiceBusca = value;}
+        }
+
+        public int NivelBusca
+        {
+            get { return _nivelBusca; }
+            set { _nivelBusca = value;}
+        }
+
+        public int TempoDescoberta
+        {
+            get { return _tempoDescoberta; }
+            set { _tempoDescoberta = value; }
+        }
+
+        public int TempoTermino
+        {
+            get { return _tempoTermino; }
+            set { _tempoTermino = value; }
+        }
+
+        public Vertice PredecessorBusca
+        {
+            get { return _predecessorBusca; }
+            set { _predecessorBusca = value;}
+        }
 
         public int Grupo
         {
@@ -50,7 +92,17 @@ namespace ProjetoGrafos.Elementos
 
         public int Grau
         {
-            get { return _grau; }
+            get { return _grauEntrada + _grauSaida; }
+        }
+
+        public int GrauEntrada
+        {
+            get { return _grauEntrada; }
+        }
+
+        public int GrauSaida
+        {
+            get { return _grauSaida; }
         }
 
         public bool TemLaco
@@ -81,7 +133,7 @@ namespace ProjetoGrafos.Elementos
                 _verticesPai.Add(vertice);
                 _verticesVizinhos.Add(vertice);
 
-                _grau++;
+                _grauEntrada++;
 
                 if(vertice.Tag ==  Tag)
                     TemLaco = true;
@@ -95,7 +147,7 @@ namespace ProjetoGrafos.Elementos
                 _verticesFilho.Add(vertice);
                 _verticesVizinhos.Add(vertice);
 
-                _grau--;
+                _grauSaida++;
 
                 if (vertice.Tag == Tag)
                     TemLaco = true;
@@ -109,6 +161,8 @@ namespace ProjetoGrafos.Elementos
                 _verticesPai.Remove(vertice);
                 _verticesVizinhos.Remove(vertice);
 
+                _grauEntrada--;
+
                 if (VerticesPai.Find(v => v.Tag == Tag) == null)
                     TemLaco = false;
             }
@@ -120,6 +174,8 @@ namespace ProjetoGrafos.Elementos
             {
                 _verticesFilho.Remove(vertice);
                 _verticesVizinhos.Remove(vertice);
+
+                _grauSaida--;
 
                 if (VerticesFilho.Find(v => v.Tag == Tag) == null)
                     TemLaco = false;
@@ -169,9 +225,12 @@ namespace ProjetoGrafos.Elementos
         {
 
             if (tipo == TipoGrafo.ND)
-                _grau = (arestas.Count)/2;
+                _grauEntrada = _grauSaida = (arestas.Count)/2;
             else
-                _grau = arestas.Count;
+            {
+                _grauEntrada = VerticesPai.Count;
+                _grauSaida = VerticesFilho.Count;
+            }
         }
     }
 }

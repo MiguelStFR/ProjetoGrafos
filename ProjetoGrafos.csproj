@@ -68,6 +68,7 @@
     <Compile Include="Elementos\Lista.cs" />
     <Compile Include="Elementos\Matriz.cs" />
     <Compile Include="Elementos\Vertice.cs" />
+    <Compile Include="Operacoes\Buscas.cs" />
     <Compile Include="Operacoes\CrudGrafo.cs" />
     <Compile Include="Operacoes\Menu.cs" />
     <Compile Include="Operacoes\Operacoes.cs" />

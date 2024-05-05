@@ -11,7 +11,7 @@ namespace ProjetoGrafos.Elementos
     public enum TipoGrafo { DI, ND}
     internal class Grafo
     {
-        private List<Vertice> VerticeList = new List<Vertice>();
+        private List<Vertice> _verticeList = new List<Vertice>();
 
         private List<Aresta> _arestasList = new List<Aresta>();
 
@@ -73,6 +73,12 @@ namespace ProjetoGrafos.Elementos
             get { return _arestasList; }
             set { _arestasList = value; }
         }
+
+        public List<Vertice> VerticeList
+        {
+            get { return _verticeList; }
+        }
+
         public TipoGrafo Tipo
         {
             get { return _tipo; }
@@ -94,14 +100,14 @@ namespace ProjetoGrafos.Elementos
         {
             if (vertice != null) 
             { 
-                if (VerticeList != null)
-                    if (VerticeList.Find(v => v.Tag == vertice.Tag) != null) 
+                if (_verticeList != null)
+                    if (_verticeList.Find(v => v.Tag == vertice.Tag) != null) 
                         return;
             }
             else 
                 return;
 
-            VerticeList.Add(vertice);
+            _verticeList.Add(vertice);
         }
 
         public void CriarVertices()
@@ -220,9 +226,9 @@ namespace ProjetoGrafos.Elementos
             {
                 string[] vertice = s.Split(':');
 
-                if (VerticeList.Find(v => v.Tag == vertice[0].Trim()) == null)
+                if (_verticeList.Find(v => v.Tag == vertice[0].Trim()) == null)
                     continue;
-                else if (VerticeList.Find(v => v.Tag == vertice[1].Trim()) == null)
+                else if (_verticeList.Find(v => v.Tag == vertice[1].Trim()) == null)
                     continue;
 
                 if(Tipo == TipoGrafo.DI)
@@ -314,7 +320,7 @@ namespace ProjetoGrafos.Elementos
         //
         public bool BuscarVertice(string Tag)
         {
-            if (VerticeList.Find(v => v.Tag == Tag) == null)
+            if (_verticeList.Find(v => v.Tag == Tag) == null)
                 return false;
             else 
                 return true;
@@ -323,13 +329,13 @@ namespace ProjetoGrafos.Elementos
         //
         public int IndexVertice(string Tag)
         {
-            return VerticeList.IndexOf(VerticeAux(Tag));
+            return _verticeList.IndexOf(VerticeAux(Tag));
         }
 
         //
         public Vertice VerticeAux(string Tag)
         {
-            return VerticeList.Find(v => v.Tag == Tag);
+            return _verticeList.Find(v => v.Tag == Tag);
         }
 
 
@@ -355,8 +361,8 @@ namespace ProjetoGrafos.Elementos
     
         public void atualizarMatriz()
         {
-            _matrizAdjacencia = new Matriz[VerticeList.Count, VerticeList.Count];
-            _matrizAdjacencia = Matriz.CriarMatriz(ArestaList, VerticeList);
+            _matrizAdjacencia = new Matriz[_verticeList.Count, _verticeList.Count];
+            _matrizAdjacencia = Matriz.CriarMatriz(ArestaList, _verticeList);
         }
 
         public void atualizarSimples()
@@ -367,10 +373,10 @@ namespace ProjetoGrafos.Elementos
                 return;
             }
 
-            for(int i = 0; i < VerticeList.Count; i++)
+            for(int i = 0; i < _verticeList.Count; i++)
             {
 
-                for(int j = 0; j < VerticeList.Count; j++)
+                for(int j = 0; j < _verticeList.Count; j++)
                 {
                     if (j == i)
                         continue;
@@ -389,7 +395,7 @@ namespace ProjetoGrafos.Elementos
         public void AtualizarRegular()
         {
             //Se existe algum vértice com um grau diferente do primeiro, então o grafo não é regular 
-            if (VerticeList.Find(v => v.Grau != VerticeList[0].Grau) != null)
+            if (_verticeList.Find(v => v.Grau != _verticeList[0].Grau) != null)
                 IsRegular = false;
             else
                 IsRegular = true;
@@ -398,7 +404,7 @@ namespace ProjetoGrafos.Elementos
         public void AtualizarBipartido()
         {
             IsBipartido = true;
-            foreach(Vertice vertice in VerticeList)
+            foreach(Vertice vertice in _verticeList)
             {
                 if(vertice.VerticesVizinhos.Find(v => v.Grupo.Equals(vertice.Grupo)) != null)
                 {
@@ -420,7 +426,7 @@ namespace ProjetoGrafos.Elementos
 
             if(Tipo == TipoGrafo.DI)
             {
-                if (VerticeList.FindAll(v => v.Grau != (VerticeList.Count - 1) * 2).Count > 0)
+                if (_verticeList.FindAll(v => v.Grau != (_verticeList.Count - 1) * 2).Count > 0)
                 {
                     IsCompleto = false;
                     return;
@@ -428,17 +434,16 @@ namespace ProjetoGrafos.Elementos
             }
             else
             {
-                if (VerticeList.FindAll(v => v.Grau != (VerticeList.Count - 1)).Count > 0)
+                if (_verticeList.FindAll(v => v.Grau != (_verticeList.Count - 1)).Count > 0)
                 {
                     IsCompleto = false;
                     return;
                 }
             }
 
-
             int i = 0;
 
-            foreach (Vertice vertice in VerticeList)
+            foreach (Vertice vertice in _verticeList)
             {
                 int j = 0;
 
@@ -448,7 +453,7 @@ namespace ProjetoGrafos.Elementos
                     return;
                 }
 
-                foreach (Vertice verticeAux in VerticeList)
+                foreach (Vertice verticeAux in _verticeList)
                 {
                     j++;
                     if (j == i + 1)
@@ -468,13 +473,13 @@ namespace ProjetoGrafos.Elementos
 
         public void AtualizarGrauVertices()
         {
-            foreach (Vertice vertice in VerticeList)
+            foreach (Vertice vertice in _verticeList)
                 vertice.AtualizarGrau(ArestaList.FindAll(a => a.VerticePai.Equals(vertice) || a.VerticeFilho.Equals(vertice)), Tipo);            
         }
 
         public void MostrarMatriz()
         {
-            Matriz.mostrarMatriz(MatrizAdjacencia, VerticeList.Count);
+            Matriz.mostrarMatriz(MatrizAdjacencia, _verticeList.Count);
         }
 
         public void MostrarLista()
@@ -494,14 +499,14 @@ namespace ProjetoGrafos.Elementos
 
         private void atualizarLista()
         {
-            ListaAdjacencia = new Lista(VerticeList, ArestaList, out VerticeList);
+            ListaAdjacencia = new Lista(_verticeList, ArestaList, out _verticeList);
         }
 
         private void AtualizarLacos()
         {
             _lacos.Clear();
-            if(VerticeList != null)
-                _lacos = VerticeList.FindAll(v => v.TemLaco == true);
+            if(_verticeList != null)
+                _lacos = _verticeList.FindAll(v => v.TemLaco == true);
         }
 
         //É chamado sempre que é inserido/removido uma nova aresta/vértice
