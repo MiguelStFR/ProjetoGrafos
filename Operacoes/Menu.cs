@@ -167,7 +167,7 @@ namespace ProjetoGrafos.Operacoes
                         Console.Clear();
                         continue;
                     case "14":
-                        //ordenação topológica
+                        Ordenacoes.OrdenacaoTopologicaKhan(Program._Grafos[pos].VerticeList);
                         Console.Clear();
                         continue;
                     case "15":

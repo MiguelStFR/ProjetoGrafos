@@ -25,6 +25,8 @@ namespace ProjetoGrafos.Elementos
 
         private int _grauSaida = 0;
 
+        private int _grauOrdenacao = 0;
+
         private int _grupo;
 
         private int _indiceBusca;
@@ -93,6 +95,12 @@ namespace ProjetoGrafos.Elementos
         public int Grau
         {
             get { return _grauEntrada + _grauSaida; }
+        }
+
+        public int GrauOrdenacao
+        {
+            get { return _grauOrdenacao; }
+            set { _grauOrdenacao = value; }
         }
 
         public int GrauEntrada
