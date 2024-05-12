@@ -8,25 +8,27 @@ namespace ProjetoGrafos.Elementos
 {
     internal class Aresta
     {
-        private Vertice _verticeFilho;
+        private Vertice _sucessor;
 
-        private Vertice _verticePai;
+        private Vertice _predecessor;
+
+        private TipoGrafo _tipoAresta;
 
         private string _nome;
 
         public int num_arestas = 0;
 
-        public int peso = 0;
+        private int _peso = 0;
 
-        public Vertice VerticeFilho
+        public Vertice VerticePredecessor
         {
-            get { return _verticeFilho; } 
-            set { _verticeFilho = value;}
+            get { return _predecessor; } 
+            set { _predecessor = value;}
         }
-        public Vertice VerticePai
+        public Vertice VerticeSucessor
         {
-            get { return _verticePai; }
-            set { _verticePai = value; }
+            get { return _sucessor; }
+            set { _sucessor = value; }
         }
         public string Nome
         {
@@ -34,11 +36,19 @@ namespace ProjetoGrafos.Elementos
             set { _nome = value; }
         }
 
-        public Aresta(Vertice verticePai, Vertice verticeFilho) 
+        public int Peso
+        {
+            get { return _peso; }
+            set { _peso = value; }
+        }
+
+        public Aresta(Vertice verticePredecessor, Vertice verticeSucessor, int peso, TipoGrafo tipoAresta) 
         { 
-            VerticeFilho = verticeFilho;
-            VerticePai = verticePai;
-            Nome = verticePai.Tag + ":" + verticeFilho.Tag;
+            _sucessor = verticeSucessor;
+            _predecessor = verticePredecessor;
+            Nome = verticePredecessor.Tag + ":" + verticeSucessor.Tag;
+            Peso = peso;
+            _tipoAresta = tipoAresta;
             num_arestas++;
         }
     }

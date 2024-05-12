@@ -133,5 +133,33 @@ namespace ProjetoGrafos.Operacoes
                 Console.Write("\n");
             }
         }
+
+        public static void OrdenacaoPrim(int pos)
+        {
+            Console.Clear();
+            Console.Write("Digite o vértice de origem(ex: 'V1')\n->");
+            string tag_vertice = Console.ReadLine().Trim();
+
+            if (!Program._Grafos[pos].BuscarVertice(tag_vertice))
+                Console.WriteLine("Nenhum vértice com esse nome foi localizado no grafo em questão.\n");
+            else
+            {
+                Ordenacoes.OrdenacaoPrimND(Program._Grafos[pos].VerticeList.Find(v => v.Tag == tag_vertice), Program._Grafos[pos].VerticeList, Program._Grafos[pos].ArestaList);
+            }
+        }
+
+        public static void OrdenacaoKruskal(int pos)
+        {
+            Console.Clear();
+            Console.Write("Digite o vértice de origem(ex: 'V1')\n->");
+            string tag_vertice = Console.ReadLine().Trim();
+
+            if (!Program._Grafos[pos].BuscarVertice(tag_vertice))
+                Console.WriteLine("Nenhum vértice com esse nome foi localizado no grafo em questão.\n");
+            else
+            {
+                Ordenacoes.OrdenacaoKruskalND(Program._Grafos[pos].VerticeList.Find(v => v.Tag == tag_vertice), Program._Grafos[pos].VerticeList, Program._Grafos[pos].ArestaList);
+            }
+        }
     }
 }

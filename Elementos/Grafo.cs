@@ -124,18 +124,15 @@ namespace ProjetoGrafos.Elementos
             }
         }
 
-        private void AdicionarRelacao(string vertice_pai, string vertice_filho)
+        private void AdicionarRelacao(string vertice_pai, string vertice_filho, int peso, TipoGrafo tipoAresta)
         {
             if (vertice_pai != null && vertice_filho != null)
             {
-                if (ArestaList.Find(a => a.VerticePai.Tag == vertice_pai && a.VerticeFilho.Tag == vertice_filho) != null)
-                {
-                    _arestasList[_arestasList.IndexOf(_arestasList.Find(a => a.VerticePai.Tag == vertice_pai && a.VerticeFilho.Tag == vertice_filho))].num_arestas++;
-                }
+                if (ArestaList.Find(a => a.VerticePredecessor.Tag == vertice_pai && a.VerticeSucessor.Tag == vertice_filho) != null)
+                    _arestasList[_arestasList.IndexOf(_arestasList.Find(a => a.VerticePredecessor.Tag == vertice_pai && a.VerticeSucessor.Tag == vertice_filho))].num_arestas++;
                 else
-                {
-                    _arestasList.Add(new Aresta(VerticeAux(vertice_pai), VerticeAux(vertice_filho)));
-                }
+                    _arestasList.Add(new Aresta(VerticeAux(vertice_pai), VerticeAux(vertice_filho), peso, tipoAresta));
+                
             }
         }
 
@@ -143,16 +140,12 @@ namespace ProjetoGrafos.Elementos
         {
             if (vertice_pai != null && vertice_filho != null)
             {
-                Aresta aresta = ArestaList.Find(a => a.VerticePai.Tag == vertice_pai && a.VerticeFilho.Tag == vertice_filho);
+                Aresta aresta = ArestaList.Find(a => a.VerticePredecessor.Tag == vertice_pai && a.VerticeSucessor.Tag == vertice_filho);
 
                 if (aresta != null && aresta.num_arestas == 0)
-                {
                     _arestasList.Remove(aresta);
-                }
                 else
-                {
-                    _arestasList[_arestasList.IndexOf(_arestasList.Find(a => a.VerticePai.Tag == vertice_pai && a.VerticeFilho.Tag == vertice_filho))].num_arestas--;
-                }
+                    _arestasList[_arestasList.IndexOf(_arestasList.Find(a => a.VerticePredecessor.Tag == vertice_pai && a.VerticeSucessor.Tag == vertice_filho))].num_arestas--;
             }
         }
 
@@ -160,7 +153,7 @@ namespace ProjetoGrafos.Elementos
         {
             Console.Clear();
 
-            Console.Write("Digite a aresta(vertice_pai/vertice_filho) a ser criada(ex:'V1:V2')\n" + "->");
+            Console.Write("Digite a aresta(predescessor:sucessor:peso) a ser criada(ex:'V1:V2:4')\n" + "->");
             string[] vertice = Console.ReadLine().Split(':');
 
             if (!BuscarVertice(vertice[0].Trim()))
@@ -175,13 +168,8 @@ namespace ProjetoGrafos.Elementos
                 return;
             }
 
-            if (Tipo == TipoGrafo.DI)
-                AdicionarRelacao(vertice[0].Trim(), vertice[1].Trim());
-            else
-            {
-                AdicionarRelacao(vertice[0].Trim(), vertice[1].Trim());
-                AdicionarRelacao(vertice[1].Trim(), vertice[0].Trim());
-            }
+            AdicionarRelacao(vertice[0].Trim(), vertice[1].Trim(),  int.Parse(vertice[2].Trim()), Tipo);
+
             atualizarGrafo();
         }
 
@@ -204,13 +192,7 @@ namespace ProjetoGrafos.Elementos
                 return;
             }
 
-            if (Tipo == TipoGrafo.DI)
-                RemoverRelacao(vertice[0].Trim(), vertice[1].Trim());
-            else
-            {
-                RemoverRelacao(vertice[0].Trim(), vertice[1].Trim());
-                RemoverRelacao(vertice[1].Trim(), vertice[0].Trim());
-            }
+            RemoverRelacao(vertice[0].Trim(), vertice[1].Trim());
 
             atualizarGrafo();
         }
@@ -219,7 +201,7 @@ namespace ProjetoGrafos.Elementos
         {
             Console.Clear();
 
-            Console.Write("Digite as relações de cada par de vertices(pai/filho) em sequencia (ex:'V1:V2/V2:V1/V1:V3/V3:V4/...')\n" + "->");
+            Console.Write("Digite as relações de cada par de vertices(pai:filho:peso) em sequencia (ex:'V1:V2:2/V2:V1:3/V1:V3:1/V3:V4:5/...')\n" + "->");
             string[] retorno = Console.ReadLine().Split('/');
 
             foreach (string s in retorno)
@@ -230,14 +212,8 @@ namespace ProjetoGrafos.Elementos
                     continue;
                 else if (_verticeList.Find(v => v.Tag == vertice[1].Trim()) == null)
                     continue;
-
-                if(Tipo == TipoGrafo.DI)
-                    AdicionarRelacao(vertice[0].Trim(), vertice[1].Trim());
-                else
-                {
-                    AdicionarRelacao(vertice[0].Trim(), vertice[1].Trim());
-                    AdicionarRelacao(vertice[1].Trim(), vertice[0].Trim());
-                }
+    
+                AdicionarRelacao(vertice[0].Trim(), vertice[1].Trim(), int.Parse(vertice[2].Trim()), Tipo);
             }
             atualizarGrafo();
         }
@@ -265,11 +241,11 @@ namespace ProjetoGrafos.Elementos
         {
             string mesclarVertices = String.Concat(vertice.Tag, " : { ");
 
-            List<Aresta> arestasVertice = _arestasList.FindAll(a => a.VerticePai.Equals(vertice));
+            List<Aresta> arestasVertice = _arestasList.FindAll(a => a.VerticePredecessor.Equals(vertice));
 
             foreach (Aresta aresta in arestasVertice)
             {
-                mesclarVertices += String.Concat(aresta.VerticeFilho.Tag, ";");
+                mesclarVertices += String.Concat(aresta.VerticeSucessor.Tag, ";");
             }
 
             mesclarVertices.Remove(mesclarVertices.Length - 1);
@@ -282,11 +258,11 @@ namespace ProjetoGrafos.Elementos
         {
             string mesclarVertices = String.Concat(vertice.Tag, " : { ");
 
-            List<Aresta> arestasVertice = _arestasList.FindAll(a => a.VerticeFilho.Equals(vertice));
+            List<Aresta> arestasVertice = _arestasList.FindAll(a => a.VerticeSucessor.Equals(vertice));
 
             foreach (Aresta aresta in arestasVertice)
             {
-                mesclarVertices += String.Concat(aresta.VerticePai.Tag, ";");
+                mesclarVertices += String.Concat(aresta.VerticePredecessor.Tag, ";");
             }
 
             mesclarVertices.Remove(mesclarVertices.Length - 1);
@@ -299,16 +275,16 @@ namespace ProjetoGrafos.Elementos
         {
             string mesclarVertices = String.Concat("\t" + vertice.Tag, " : { ");
 
-            List<Aresta> arestasVertice = _arestasList.FindAll(a => a.VerticePai.Equals(vertice));
+            List<Aresta> arestasVertice = _arestasList.FindAll(a => a.VerticePredecessor.Equals(vertice));
 
             foreach (Aresta aresta in arestasVertice)
             {
-                mesclarVertices += String.Concat(aresta.VerticePai.Tag, ";");
+                mesclarVertices += String.Concat(aresta.VerticePredecessor.Tag, ";");
             }
 
             foreach (Aresta aresta in arestasVertice)
             {
-                mesclarVertices += String.Concat(aresta.VerticeFilho.Tag, ";");
+                mesclarVertices += String.Concat(aresta.VerticeSucessor.Tag, ";");
             }
 
             mesclarVertices.Remove(mesclarVertices.Length - 1);
@@ -474,7 +450,7 @@ namespace ProjetoGrafos.Elementos
         public void AtualizarGrauVertices()
         {
             foreach (Vertice vertice in _verticeList)
-                vertice.AtualizarGrau(ArestaList.FindAll(a => a.VerticePai.Equals(vertice) || a.VerticeFilho.Equals(vertice)), Tipo);            
+                vertice.AtualizarGrau(ArestaList.FindAll(a => a.VerticePredecessor.Equals(vertice) || a.VerticeSucessor.Equals(vertice)), Tipo);            
         }
 
         public void MostrarMatriz()

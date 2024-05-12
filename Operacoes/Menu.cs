@@ -171,11 +171,11 @@ namespace ProjetoGrafos.Operacoes
                         Console.Clear();
                         continue;
                     case "15":
-                        //Prim
+                        Operacoes.OrdenacaoPrim(pos);
                         Console.Clear();
                         continue;
                     case "16":
-                        //Kruskal
+                        Operacoes.OrdenacaoKruskal(pos);
                         Console.Clear();
                         continue;
                     case "17":

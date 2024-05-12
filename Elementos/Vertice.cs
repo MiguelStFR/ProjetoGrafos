@@ -15,59 +15,29 @@ namespace ProjetoGrafos.Elementos
 
         private List<Vertice> _verticesFilho = new List<Vertice>();
 
+        private Vertice _predecessorBusca = null;
+
         private string _tag = string.Empty;
 
         private int _valor;
-
-        private bool _temLaco = false;
 
         private int _grauEntrada = 0;
 
         private int _grauSaida = 0;
 
-        private int _grauOrdenacao = 0;
-
         private int _grupo;
 
-        private int _indiceBusca;
+        private int _grauOrdenacao = 0;
 
-        private int _nivelBusca;
+        private int _indiceBusca = 0;
 
-        private int _tempoDescoberta;
+        private int _nivelBusca = 0;
 
-        private int _tempoTermino;
+        private int _tempoDescoberta = 0;
 
-        private Vertice _predecessorBusca;
-
-        public int IndiceBusca
-        {
-            get { return _indiceBusca; }
-            set { _indiceBusca = value;}
-        }
-
-        public int NivelBusca
-        {
-            get { return _nivelBusca; }
-            set { _nivelBusca = value;}
-        }
-
-        public int TempoDescoberta
-        {
-            get { return _tempoDescoberta; }
-            set { _tempoDescoberta = value; }
-        }
-
-        public int TempoTermino
-        {
-            get { return _tempoTermino; }
-            set { _tempoTermino = value; }
-        }
-
-        public Vertice PredecessorBusca
-        {
-            get { return _predecessorBusca; }
-            set { _predecessorBusca = value;}
-        }
+        private int _tempoTermino = 0;
+        
+        private bool _temLaco = false;
 
         public int Grupo
         {
@@ -87,20 +57,9 @@ namespace ProjetoGrafos.Elementos
             set { _valor = value; }
         }
 
-        public Vertice(string tag) {
-            Tag = tag;
-            Grupo = -1;
-        }
-
         public int Grau
         {
             get { return _grauEntrada + _grauSaida; }
-        }
-
-        public int GrauOrdenacao
-        {
-            get { return _grauOrdenacao; }
-            set { _grauOrdenacao = value; }
         }
 
         public int GrauEntrada
@@ -119,6 +78,41 @@ namespace ProjetoGrafos.Elementos
             set { _temLaco = value; }
         }
 
+        public int GrauOrdenacao
+        {
+            get { return _grauOrdenacao; }
+            set { _grauOrdenacao = value; }
+        }
+
+        public int TempoTermino
+        {
+            get { return _tempoTermino; }
+            set { _tempoTermino = value; }
+        }
+        public int IndiceBusca
+        {
+            get { return _indiceBusca; }
+            set { _indiceBusca = value; }
+        }
+
+        public int NivelBusca
+        {
+            get { return _nivelBusca; }
+            set { _nivelBusca = value; }
+        }
+
+        public int TempoDescoberta
+        {
+            get { return _tempoDescoberta; }
+            set { _tempoDescoberta = value; }
+        }
+
+        public Vertice PredecessorBusca
+        {
+            get { return _predecessorBusca; }
+            set { _predecessorBusca = value; }
+        }
+
         public List<Vertice> VerticesVizinhos
         {
             get { return _verticesVizinhos; }
@@ -132,6 +126,12 @@ namespace ProjetoGrafos.Elementos
         public List<Vertice> VerticesFilho
         {
             get { return _verticesFilho; }
+        }
+
+        public Vertice(string tag)
+        {
+            Tag = tag;
+            Grupo = -1;
         }
 
         public void AdicionarVerticePai(Vertice vertice)
@@ -233,7 +233,7 @@ namespace ProjetoGrafos.Elementos
         {
 
             if (tipo == TipoGrafo.ND)
-                _grauEntrada = _grauSaida = (arestas.Count)/2;
+                _grauEntrada = _grauSaida = arestas.Count;
             else
             {
                 _grauEntrada = VerticesPai.Count;

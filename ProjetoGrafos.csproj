@@ -68,11 +68,17 @@
     <Compile Include="Elementos\Lista.cs" />
     <Compile Include="Elementos\Matriz.cs" />
     <Compile Include="Elementos\Vertice.cs" />
+    <Compile Include="Elementos\VerticeExtends.cs" />
     <Compile Include="Operacoes\Buscas.cs" />
     <Compile Include="Operacoes\CrudGrafo.cs" />
+    <Compile Include="Operacoes\Dijkstra.cs" />
     <Compile Include="Operacoes\Menu.cs" />
     <Compile Include="Operacoes\Operacoes.cs" />
+    <Compile Include="Operacoes\Ordenacoes.cs" />
     <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

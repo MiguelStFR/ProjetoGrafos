@@ -27,17 +27,17 @@ namespace ProjetoGrafos.Elementos
         {
             foreach (Vertice vertice in verticeList)
             {
-                List<Aresta> arestas = arestasList.FindAll(a => a.VerticePai.Equals(vertice) || a.VerticeFilho.Equals(vertice));
+                List<Aresta> arestas = arestasList.FindAll(a => a.VerticePredecessor.Equals(vertice) || a.VerticeSucessor.Equals(vertice));
 
                 verticeList[verticeList.IndexOf(vertice)].VerticesFilho.Clear();
                 verticeList[verticeList.IndexOf(vertice)].VerticesPai.Clear();
 
                 foreach (Aresta aresta in arestas)
                 {
-                    if(aresta.VerticePai.Equals(vertice))
-                        verticeList[verticeList.IndexOf(vertice)].AdicionarVerticeFilho(aresta.VerticeFilho);
+                    if(aresta.VerticePredecessor.Equals(vertice))
+                        verticeList[verticeList.IndexOf(vertice)].AdicionarVerticeFilho(aresta.VerticeSucessor);
                     else
-                        verticeList[verticeList.IndexOf(vertice)].AdicionarVerticePai(aresta.VerticePai);
+                        verticeList[verticeList.IndexOf(vertice)].AdicionarVerticePai(aresta.VerticePredecessor);
                 }
             }
             return verticeList;

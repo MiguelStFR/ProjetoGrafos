@@ -27,7 +27,7 @@ namespace ProjetoGrafos.Operacoes
                 else
                 {
                     tipoGrafo = TipoGrafo.DI;
-                    Console.WriteLine("Nenhum tipo válido escolido, tipo definido como não direcionado");
+                    Console.WriteLine("Nenhum tipo válido escolhido, tipo definido como não direcionado");
                 }
 
                 Grafo grafo = new Grafo(retorno[0].Trim(), tipoGrafo);

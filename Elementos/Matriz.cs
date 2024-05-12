@@ -30,13 +30,13 @@ namespace ProjetoGrafos.Elementos
             {
                 int indexLin = verticeList.IndexOf(vertice);
 
-                List<Aresta> arestasVertice = arestaList.FindAll(a => a.VerticePai.Equals(vertice));
+                List<Aresta> arestasVertice = arestaList.FindAll(a => a.VerticePredecessor.Equals(vertice));
 
                 foreach(Vertice verticeAux in verticeList)
                 {
                     int indexCol = verticeList.IndexOf(verticeAux);
 
-                    int num_relacoes = arestasVertice.FindAll(a => a.VerticeFilho.Equals(verticeAux)).Count;
+                    int num_relacoes = arestasVertice.FindAll(a => a.VerticeSucessor.Equals(verticeAux)).Count;
                     matriz[indexCol, indexLin] = new Matriz(vertice.Tag + ":" + verticeAux.Tag, num_relacoes);
                 }
             }
