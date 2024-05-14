@@ -168,7 +168,12 @@ namespace ProjetoGrafos.Elementos
                 return;
             }
 
-            AdicionarRelacao(vertice[0].Trim(), vertice[1].Trim(),  int.Parse(vertice[2].Trim()), Tipo);
+            int peso = 0;
+
+            if (String.IsNullOrEmpty(vertice[2].Trim()))
+                peso = int.Parse(vertice[2].Trim());
+
+            AdicionarRelacao(vertice[0].Trim(), vertice[1].Trim(), peso, Tipo);
 
             atualizarGrafo();
         }

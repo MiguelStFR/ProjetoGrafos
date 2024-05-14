@@ -179,7 +179,7 @@ namespace ProjetoGrafos.Operacoes
                         Console.Clear();
                         continue;
                     case "17":
-                        //Testar se é conexo
+                        Operacoes.TestarGrafoConexo(pos);
                         Console.Clear();
                         continue;
                     case "18":

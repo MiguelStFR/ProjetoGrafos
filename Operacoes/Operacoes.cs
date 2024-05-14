@@ -85,6 +85,17 @@ namespace ProjetoGrafos.Operacoes
                 Console.WriteLine("O grafo não é regular.\n");
         }
 
+        public static void TestarGrafoConexo(int pos)
+        {
+            Console.Clear();
+            Console.Write("\nTestar se o grafo é simples: ");
+
+            if (Ordenacoes.isConexo(Program._Grafos[pos].VerticeList))
+                Console.WriteLine("O Grafo é conexo.\n");
+            else
+                Console.WriteLine("O grafo não é conexo.\n");
+        }
+
         public static void IdentificarGrauVertice(int pos)
         {
             Console.Clear();
