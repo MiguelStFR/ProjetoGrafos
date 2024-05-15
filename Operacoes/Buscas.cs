@@ -71,13 +71,15 @@ namespace ProjetoGrafos.Operacoes
                     }
                 }
             }
+            Console.ReadKey();
         }
 
         public static void IniciarBuscaEmProfundidade(List<Vertice> verticeList, TipoGrafo tipoGrafo)
         {
             Console.WriteLine("INICIANDO BUSCA EM PROFUNDIDADE");
             tempo = 0;
-            VerticeList.Clear();
+
+            VerticeList = new List<Vertice>();
 
             for (int i = 0; i < verticeList.Count; i++)
             {
@@ -98,6 +100,7 @@ namespace ProjetoGrafos.Operacoes
                         BuscarEmProfundidadeDI(VerticeList.IndexOf(vertice));
                 }
             }
+            Console.ReadKey();
         }
 
         private static void BuscarEmProfundidadeND(int pos)

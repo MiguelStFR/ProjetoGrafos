@@ -25,20 +25,41 @@ namespace ProjetoGrafos.Elementos
 
         public static List<Vertice> AdicionarVizinhos(List<Vertice> verticeList, List<Aresta> arestasList)
         {
+            List<Aresta> arestas;
+
             foreach (Vertice vertice in verticeList)
             {
-                List<Aresta> arestas = arestasList.FindAll(a => a.VerticePredecessor.Equals(vertice) || a.VerticeSucessor.Equals(vertice));
+                verticeList[verticeList.IndexOf(vertice)].ZerarVizinhanca();
+            }
 
-                verticeList[verticeList.IndexOf(vertice)].VerticesFilho.Clear();
-                verticeList[verticeList.IndexOf(vertice)].VerticesPai.Clear();
+            foreach (Vertice vertice in verticeList)
+            {
 
-                foreach (Aresta aresta in arestas)
+                if (arestasList[0].TipoAresta == TipoGrafo.DI)
                 {
-                    if(aresta.VerticePredecessor.Equals(vertice))
-                        verticeList[verticeList.IndexOf(vertice)].AdicionarVerticeFilho(aresta.VerticeSucessor);
-                    else
-                        verticeList[verticeList.IndexOf(vertice)].AdicionarVerticePai(aresta.VerticePredecessor);
+                    arestas = arestasList.FindAll(a => a.VerticePredecessor.Equals(vertice) || a.VerticeSucessor.Equals(vertice));
+
+                    foreach (Aresta aresta in arestas)
+                    {
+                        if (aresta.VerticePredecessor.Equals(vertice))
+                            verticeList[verticeList.IndexOf(vertice)].AdicionarVerticeFilho(aresta.VerticeSucessor);
+                        else
+                            verticeList[verticeList.IndexOf(vertice)].AdicionarVerticePai(aresta.VerticePredecessor);
+                    }
                 }
+                else
+                {
+                    arestas = arestasList.FindAll(a => a.VerticePredecessor.Equals(vertice));
+
+                    foreach (Aresta aresta in arestas)
+                    {
+                        verticeList[verticeList.IndexOf(vertice)].AdicionarVerticeFilho(aresta.VerticeSucessor);
+                        verticeList[verticeList.IndexOf(vertice)].AdicionarVerticePai(aresta.VerticeSucessor);
+
+                        verticeList[verticeList.IndexOf(aresta.VerticeSucessor)].AdicionarVerticeFilho(vertice);
+                        verticeList[verticeList.IndexOf(aresta.VerticeSucessor)].AdicionarVerticePai(vertice);
+                    }
+                }              
             }
             return verticeList;
         }
@@ -46,7 +67,7 @@ namespace ProjetoGrafos.Elementos
         public void MostrarListaFilhos()
         {
             string ListaString = string.Empty;
-            ListaString += "\nRepresentação em Lista Sucessores:\n\n";
+            ListaString += "\nRepresentação em Lista:\n\n";
             foreach(Vertice vertice in Vertices)
             {
                 ListaString += vertice.Tag + ": " + vertice.MostrarFilhos() + "\n";
@@ -70,7 +91,7 @@ namespace ProjetoGrafos.Elementos
         public void MostrarListaVizinhos()
         {
             string ListaString = string.Empty;
-            ListaString += "\nRepresentação em Lista Vizinhos:\n\n";
+            ListaString += "\nRepresentação em Lista:\n\n";
             foreach (Vertice vertice in Vertices)
             {
                 ListaString += vertice.Tag + ": " + vertice.MostrarVizinhos() + "\n";

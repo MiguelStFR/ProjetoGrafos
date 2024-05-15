@@ -42,6 +42,12 @@ namespace ProjetoGrafos.Elementos
             set { _peso = value; }
         }
 
+        public TipoGrafo TipoAresta
+        {
+            get { return _tipoAresta; }
+            set { _tipoAresta = value; }
+        }
+
         public Aresta(Vertice verticePredecessor, Vertice verticeSucessor, int peso, TipoGrafo tipoAresta) 
         { 
             _sucessor = verticeSucessor;

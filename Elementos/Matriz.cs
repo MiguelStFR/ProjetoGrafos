@@ -30,14 +30,35 @@ namespace ProjetoGrafos.Elementos
             {
                 int indexLin = verticeList.IndexOf(vertice);
 
-                List<Aresta> arestasVertice = arestaList.FindAll(a => a.VerticePredecessor.Equals(vertice));
-
-                foreach(Vertice verticeAux in verticeList)
+                if (arestaList[0].TipoAresta == TipoGrafo.DI)
                 {
-                    int indexCol = verticeList.IndexOf(verticeAux);
+                    List<Aresta> arestasVertice = arestaList.FindAll(a => a.VerticePredecessor.Equals(vertice));
 
-                    int num_relacoes = arestasVertice.FindAll(a => a.VerticeSucessor.Equals(verticeAux)).Count;
-                    matriz[indexCol, indexLin] = new Matriz(vertice.Tag + ":" + verticeAux.Tag, num_relacoes);
+                    foreach (Vertice verticeAux in verticeList)
+                    {
+                        int indexCol = verticeList.IndexOf(verticeAux);
+
+                        int num_relacoes = arestasVertice.FindAll(a => a.VerticeSucessor.Equals(verticeAux)).Count;
+
+                        matriz[indexCol, indexLin] = new Matriz(vertice.Tag + ":" + verticeAux.Tag, num_relacoes);
+                    }
+                }
+                else
+                {
+                    List<Aresta> arestasVertice = arestaList.FindAll(a => a.VerticePredecessor.Equals(vertice));
+
+                    for (int indexCol = indexLin; indexCol < verticeList.Count; indexCol++)
+                    {
+                        Vertice verticeAux = verticeList[indexCol];
+                        int num_relacoes = arestaList.FindAll(
+                            a => a.VerticeSucessor.Equals(verticeAux) && a.VerticePredecessor.Equals(vertice) || 
+                            a.VerticeSucessor.Equals(vertice) && a.VerticePredecessor.Equals(verticeAux)).Count;
+
+                        matriz[indexCol, indexLin] = new Matriz(vertice.Tag + ":" + verticeAux.Tag, num_relacoes);
+                        
+                        if(verticeAux != vertice)
+                            matriz[indexLin, indexCol] = new Matriz(verticeAux.Tag + ":" + vertice.Tag, num_relacoes);
+                    }
                 }
             }
             return matriz;

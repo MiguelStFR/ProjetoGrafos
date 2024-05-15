@@ -465,7 +465,10 @@ namespace ProjetoGrafos.Elementos
 
         public void MostrarLista()
         {
-            ListaAdjacencia.MostrarListaFilhos();
+            if(_tipo == TipoGrafo.DI)
+                ListaAdjacencia.MostrarListaFilhos();
+            else
+                ListaAdjacencia.MostrarListaVizinhos();
         }
 
         public string MostrarLacos()
@@ -481,6 +484,7 @@ namespace ProjetoGrafos.Elementos
         private void atualizarLista()
         {
             ListaAdjacencia = new Lista(_verticeList, ArestaList, out _verticeList);
+            AtualizarGrauVertices();
         }
 
         private void AtualizarLacos()
@@ -498,8 +502,6 @@ namespace ProjetoGrafos.Elementos
             atualizarMatriz();
 
             AtualizarLacos();
-
-            AtualizarGrauVertices();
 
             AtualizarBipartido();
             

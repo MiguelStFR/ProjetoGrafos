@@ -52,6 +52,8 @@ namespace ProjetoGrafos.Operacoes
             {
                 Console.WriteLine("Existe um Ciclo no grafo");
             }
+
+            Console.ReadKey();
         }
 
         public static void OrdenacaoPrimND(Vertice raiz, List<Vertice> verticeList, List<Aresta> arestaList)
@@ -82,7 +84,9 @@ namespace ProjetoGrafos.Operacoes
 
             Console.WriteLine("Arestas selecionadas: ");
             foreach (Aresta aresta in arestasEscolhidasList)
-                Console.Write(aresta.VerticePredecessor + ":" + aresta.VerticeSucessor + "\n");
+                Console.Write(aresta.VerticePredecessor.Tag + ":" + aresta.VerticeSucessor.Tag + "\n");
+
+            Console.ReadKey();
         }
 
         public static void OrdenacaoKruskalND(Vertice raiz, List<Vertice> verticeList, List<Aresta> arestaList)
@@ -104,7 +108,9 @@ namespace ProjetoGrafos.Operacoes
 
             Console.WriteLine("Arestas selecionadas: ");
             foreach (Aresta aresta in arestasEscolhidasList)
-                Console.Write(aresta.VerticePredecessor + ":" + aresta.VerticeSucessor + "\n");
+                Console.Write(aresta.VerticePredecessor.Tag + ":" + aresta.VerticeSucessor.Tag + "\n");
+
+            Console.ReadKey();
         }
 
         public static List<Aresta> OrdenacaoBubbleSort(List<Aresta> arestaList)

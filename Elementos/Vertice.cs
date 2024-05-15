@@ -25,6 +25,8 @@ namespace ProjetoGrafos.Elementos
 
         private int _grauSaida = 0;
 
+        private int _grau = 0;
+
         private int _grupo;
 
         private int _grauOrdenacao = 0;
@@ -59,7 +61,7 @@ namespace ProjetoGrafos.Elementos
 
         public int Grau
         {
-            get { return _grauEntrada + _grauSaida; }
+            get { return _grau; }
         }
 
         public int GrauEntrada
@@ -138,8 +140,11 @@ namespace ProjetoGrafos.Elementos
         {
             if (vertice != null)
             {
-                _verticesPai.Add(vertice);
-                _verticesVizinhos.Add(vertice);
+                if (_verticesPai.Find(v => v._tag == vertice._tag) == null)
+                    _verticesPai.Add(vertice);
+
+                if(_verticesVizinhos.Find(v => v._tag == vertice._tag) == null)
+                    _verticesVizinhos.Add(vertice);
 
                 _grauEntrada++;
 
@@ -152,8 +157,11 @@ namespace ProjetoGrafos.Elementos
         {
             if (vertice != null)
             {
-                _verticesFilho.Add(vertice);
-                _verticesVizinhos.Add(vertice);
+                if (_verticesFilho.Find(v => v._tag == vertice._tag) == null)
+                    _verticesFilho.Add(vertice);
+
+                if (_verticesVizinhos.Find(v => v._tag == vertice._tag) == null)
+                    _verticesVizinhos.Add(vertice);
 
                 _grauSaida++;
 
@@ -233,12 +241,23 @@ namespace ProjetoGrafos.Elementos
         {
 
             if (tipo == TipoGrafo.ND)
-                _grauEntrada = _grauSaida = arestas.Count;
+            {
+                _grauEntrada = _grauSaida = arestas.Count / 2;
+            }
             else
             {
                 _grauEntrada = VerticesPai.Count;
                 _grauSaida = VerticesFilho.Count;
             }
+            _grau = _grauEntrada + _grauSaida;
+        }
+
+        public void ZerarVizinhanca()
+        {
+            _verticesFilho.Clear();
+            _verticesPai.Clear();
+            _verticesVizinhos.Clear();
+            _grau = _grauEntrada = _grauSaida = 0;
         }
     }
 }
