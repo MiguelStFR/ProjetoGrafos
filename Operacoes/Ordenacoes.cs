@@ -63,24 +63,29 @@ namespace ProjetoGrafos.Operacoes
 
             verticesSelecionadosList.Add(raiz);
 
-            for(int i = 0; verticesSelecionadosList.Count != verticeList.Count; i++)
+            for(int i = 0; verticesSelecionadosList != verticeList; i++)
             {
                 List<Aresta> arestaAuxList = new List<Aresta>();
-                arestaAuxList = arestaList.FindAll(a => a.VerticeSucessor == verticesSelecionadosList[i] && verticesSelecionadosList.Find(v => v.Tag == a.VerticePredecessor.Tag) == null);
+                arestaAuxList = arestaList.FindAll(a => a.VerticePredecessor == verticesSelecionadosList[i]);
 
-                if(arestaAuxList.Count > 0)
+                foreach(Aresta aaux in arestaAuxList)
+                    if(verticesSelecionadosList.Find(v => v.Tag == aaux.VerticeSucessor.Tag) != null)
+                        arestaAuxList.Remove(aaux);
+
+                if (arestaAuxList.Count > 0)
                 {
                     Aresta ArestaMenorPeso = arestaAuxList[0];
-                    foreach(Aresta a in arestaAuxList)
+                    foreach (Aresta a in arestaAuxList)
                     {
-                        if(ArestaMenorPeso.Peso > a.Peso)
+                        if (ArestaMenorPeso.Peso > a.Peso)
                             ArestaMenorPeso = a;
                     }
 
                     verticesSelecionadosList.Add(ArestaMenorPeso.VerticeSucessor);
                     arestasEscolhidasList.Add(ArestaMenorPeso);
-                }             
-            }
+                }
+            }            
+            
 
             Console.WriteLine("Arestas selecionadas: ");
             foreach (Aresta aresta in arestasEscolhidasList)
@@ -91,15 +96,13 @@ namespace ProjetoGrafos.Operacoes
 
         public static void OrdenacaoKruskalND(Vertice raiz, List<Vertice> verticeList, List<Aresta> arestaList)
         {
-            List<Vertice> verticesSelecionadosList = new List<Vertice>();
             List<Aresta> arestasEscolhidasList = new List<Aresta>();
             
-            verticesSelecionadosList.Add(raiz);
             arestaList = OrdenacaoBubbleSort(arestaList);
 
             arestasEscolhidasList.Add(arestaList[0]);
             int j = 1;
-            while (arestasEscolhidasList.Count < verticesSelecionadosList.Count - 1)
+            while (arestasEscolhidasList.Count < verticeList.Count - 1)
             {
                 if (!hasCiclo(arestaList[j], arestasEscolhidasList))
                     arestasEscolhidasList.Add(arestaList[j]);
@@ -108,9 +111,10 @@ namespace ProjetoGrafos.Operacoes
 
             Console.WriteLine("Arestas selecionadas: ");
             foreach (Aresta aresta in arestasEscolhidasList)
-                Console.Write(aresta.VerticePredecessor.Tag + ":" + aresta.VerticeSucessor.Tag + "\n");
+                Console.Write(aresta.VerticePredecessor.Tag + ":" + aresta.VerticeSucessor.Tag + " P: " + aresta.Peso + "\n");
 
             Console.ReadKey();
+        
         }
 
         public static List<Aresta> OrdenacaoBubbleSort(List<Aresta> arestaList)

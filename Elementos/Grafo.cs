@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjetoGrafos.Operacoes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -33,6 +34,7 @@ namespace ProjetoGrafos.Elementos
 
         private bool _isBipartido = false;
 
+        private bool _isConexo = false;
         public string Nome
         {
             get {  return _nome; }
@@ -62,6 +64,11 @@ namespace ProjetoGrafos.Elementos
             set { _isBipartido = value; }
         }
         
+        public bool IsConexo
+        {
+            get { return _isConexo; }
+            set { _isConexo = value;}
+        }
         public Grafo(string Nome, TipoGrafo Tipo) 
         {
             _nome = Nome;
@@ -458,6 +465,10 @@ namespace ProjetoGrafos.Elementos
                 vertice.AtualizarGrau(ArestaList.FindAll(a => a.VerticePredecessor.Equals(vertice) || a.VerticeSucessor.Equals(vertice)), Tipo);            
         }
 
+        public void AtualizarIsConexo()
+        {
+            Buscas.TestarConectividade(_verticeList, out _isConexo);
+        }
         public void MostrarMatriz()
         {
             Matriz.mostrarMatriz(MatrizAdjacencia, _verticeList.Count);
@@ -510,6 +521,8 @@ namespace ProjetoGrafos.Elementos
             atualizarSimples();
 
             AtualizarCompleto();
+
+            AtualizarIsConexo();
         }
     }
 }

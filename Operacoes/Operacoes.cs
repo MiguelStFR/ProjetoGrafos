@@ -85,17 +85,6 @@ namespace ProjetoGrafos.Operacoes
                 Console.WriteLine("O grafo não é regular.\n");
         }
 
-        public static void TestarGrafoConexo(int pos)
-        {
-            Console.Clear();
-            Console.Write("\nTestar se o grafo é simples: ");
-
-            if (Ordenacoes.isConexo(Program._Grafos[pos].VerticeList))
-                Console.WriteLine("O Grafo é conexo.\n");
-            else
-                Console.WriteLine("O grafo não é conexo.\n");
-        }
-
         public static void IdentificarGrauVertice(int pos)
         {
             Console.Clear();
@@ -169,8 +158,26 @@ namespace ProjetoGrafos.Operacoes
                 Console.WriteLine("Nenhum vértice com esse nome foi localizado no grafo em questão.\n");
             else
             {
-                Ordenacoes.OrdenacaoKruskalND(Program._Grafos[pos].VerticeList.Find(v => v.Tag == tag_vertice), Program._Grafos[pos].VerticeList, Program._Grafos[pos].ArestaList);
+                if (Program._Grafos[pos].IsConexo)
+                    Ordenacoes.OrdenacaoKruskalND(Program._Grafos[pos].VerticeList.Find(v => v.Tag == tag_vertice), Program._Grafos[pos].VerticeList, Program._Grafos[pos].ArestaList);
+                else
+                    Console.WriteLine("Não é possível realizar a ordenação. O grafo é desconexo\n");
             }
+        }
+
+        public static void TestarGrafoConexo(int pos)
+        {
+            Console.Clear();
+
+            Console.WriteLine("TESTAR GRAFO CONEXO: ");
+            if (Program._Grafos[pos].IsConexo)
+                Console.WriteLine("O grafo é conexo.\n");
+            else
+            {
+                Console.WriteLine("O grafo não é conexo\n");
+            }
+
+            Console.ReadKey();
         }
     }
 }

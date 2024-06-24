@@ -1,4 +1,5 @@
-﻿using ProjetoGrafos.Elementos;
+﻿using ProjetoGrafos.DoctorsChallenge;
+using ProjetoGrafos.Elementos;
 using ProjetoGrafos.Operacoes;
 using System;
 using System.Collections.Generic;
@@ -32,8 +33,9 @@ namespace ProjetoGrafos.Operacoes
                 "Digite o que deseja realizar:\n" +
                 "1 - Criar Grafo.\n" +
                 "2 - Acessar Grafo.\n" +
-                "3 - Informações.\n" +
-                "4 - Sair.\n" +
+                "3 - Atividade 3.\n" +
+                "4 - Informações.\n" +
+                "0 - Sair.\n" +
                 "-> ");
 
                 escolha = Console.ReadLine();
@@ -49,10 +51,14 @@ namespace ProjetoGrafos.Operacoes
                         Operacoes.AcessarGrafo();
                         continue;
                     case "3":
-                        exibirInformacoes();
+                        DoctorsChallenge.DoctorScheduler.Menu();
                         Console.Clear();
                         continue;
                     case "4":
+                        exibirInformacoes();
+                        Console.Clear();
+                        continue;
+                    case "0":
                         Console.WriteLine("\nSaindo.\n");
                         break;
                     default:
@@ -114,10 +120,9 @@ namespace ProjetoGrafos.Operacoes
                 "12 - Busca em largura\n" +
                 "13 - Busca em Profundidade\n" +
                 "14 - Ordenação Topológica\n" +
-                "15 - AGM Prim\n" +
-                "16 - AGM Kruskal\n" +
-                "17 - Testar se é Conexo\n" +
-                "18 - Encontrar caminho Mínimo\n" +
+                "15 - AGM Kruskal\n" +
+                "16 - Testar se é Conexo\n" +
+                "17 - Encontrar caminho Mínimo\n" +
                 "-> ");
 
                 escolha = Console.ReadLine();
@@ -159,7 +164,7 @@ namespace ProjetoGrafos.Operacoes
                         Program._Grafos[pos].Deletar();                   
                         return;
                     case "12":
-                        Buscas.IniciarBuscaEmLarguraLista(Program._Grafos[pos].VerticeList);
+                        Buscas.IniciarBuscaEmLarguraLista(Program._Grafos[pos].VerticeList, out bool isConexo);
                         Console.Clear();
                         continue;
                     case "13":
@@ -171,18 +176,14 @@ namespace ProjetoGrafos.Operacoes
                         Console.Clear();
                         continue;
                     case "15":
-                        Operacoes.OrdenacaoPrim(pos);
-                        Console.Clear();
-                        continue;
-                    case "16":
                         Operacoes.OrdenacaoKruskal(pos);
                         Console.Clear();
                         continue;
-                    case "17":
+                    case "16":
                         Operacoes.TestarGrafoConexo(pos);
                         Console.Clear();
                         continue;
-                    case "18":
+                    case "17":
                         //Encontrar caminho mínimo
                         Console.Clear();
                         continue;

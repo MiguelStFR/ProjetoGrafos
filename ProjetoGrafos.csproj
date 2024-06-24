@@ -63,6 +63,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DoctorsChallenge\Operacao.cs" />
     <Compile Include="Elementos\Aresta.cs" />
     <Compile Include="Elementos\Grafo.cs" />
     <Compile Include="Elementos\Lista.cs" />
@@ -80,5 +81,6 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
